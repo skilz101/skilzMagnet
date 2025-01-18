@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  name      String
+  sessions  Session[]
+  role      Roles     @default(NEWUSER)
+  company   Company?  @relation(fields: [companyId], references: [id])
+  companyId String?
+  picture  String
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+enum Roles {
+  ADMIN
+  NEWUSER
+  SKILZADMIN
+}
+
+model Company {
+  id          String   @id @default(uuid())
+  firstName   String
+  lastName    String
+  companyName String
+  discover    Discover
+  User        User[]
+  leads       Leads[]
+  template    Template
+  theme       Theme
+  logo        String
+  title       String
+  subTitle    String
+}
+
+model Leads {
+  id          String  @id @default(uuid())
+  name        String?
+  email       String?
+  phoneNumber String?
+
+  Company   Company? @relation(fields: [companyId], references: [id])
+  companyId String?
+}
+
+enum Discover {
+  Ticktok
+  Instagram
+  Facebook
+  X
+  LinkedIn
+  Friend
+}
+
+enum Template {
+  Template1
+  Template2
+  Template3
+}
+
+enum Theme {
+  Dark
+  Light
+}
