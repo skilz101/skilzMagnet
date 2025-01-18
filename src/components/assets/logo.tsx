@@ -11,6 +11,17 @@ export function Logo() {
   );
 }
 
+export function Logo2() {
+  return (
+    <Image
+      src="/logo2.png"
+      alt="skilz magnet. a saas for lead generation"
+      width={50}
+      height={50}
+    />
+  );
+}
+
 export function NewSvgComponent() {
   return (
     <>
