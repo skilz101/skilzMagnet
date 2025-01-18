@@ -51,6 +51,7 @@ model Company {
   title    String?
   subTitle String?
   usage    String
+  fields   Fields[]
 }
 
 model Leads {
@@ -58,6 +59,16 @@ model Leads {
   name        String?
   email       String?
   phoneNumber String?
+
+  Company   Company? @relation(fields: [companyId], references: [id])
+  companyId String?
+}
+
+model Fields {
+  id          String  @id @default(uuid())
+  name        Boolean
+  email       Boolean
+  phoneNumber Boolean
 
   Company   Company? @relation(fields: [companyId], references: [id])
   companyId String?

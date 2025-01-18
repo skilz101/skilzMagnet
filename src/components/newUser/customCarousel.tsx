@@ -164,6 +164,7 @@ export function OnboardingForm(props: { id: string }) {
           onClick: () => console.log("ok"),
         },
       });
+      console.log(error);
       setIsLoading(false);
     }
   };
