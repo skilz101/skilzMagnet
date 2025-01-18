@@ -16,7 +16,7 @@ model User {
   name           String
   sessions       Session[]
   role           Roles     @default(NEWUSER)
-  company        Company?  @relation(fields: [companyId], references: [id])
+  company        Company?
   companyId      String?
   picture        String
   hashedPassword String?
@@ -41,13 +41,16 @@ model Company {
   lastName    String
   companyName String
   discover    Discover
-  User        User[]
-  leads       Leads[]
-  template    Template
-  theme       Theme
-  logo        String
-  title       String
-  subTitle    String
+  User        User     @relation(fields: [companyId], references: [id])
+  companyId   String   @unique
+
+  leads    Leads[]
+  template Template?
+  theme    Theme?
+  logo     String?
+  title    String?
+  subTitle String?
+  usage    String
 }
 
 model Leads {

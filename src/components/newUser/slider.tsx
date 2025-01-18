@@ -1,6 +1,7 @@
 "use client";
 
 import { Logo2 } from "../assets/logo";
+import { OnboardingForm } from "./customCarousel";
 
 export default function Slider() {
   return (
@@ -18,7 +19,9 @@ export default function Slider() {
           </div>
         </div>
       </div>
-      <div className="flex items-center"></div>
+      <div className="flex items-center justify-center p-2 md:p-10">
+        <OnboardingForm />
+      </div>
     </main>
   );
 }
