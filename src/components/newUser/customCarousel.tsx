@@ -30,6 +30,9 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
 import { Discover } from "@prisma/client";
+import { Loader2 } from "lucide-react";
+import { CreateCompany } from "@/server/admin/createCompany";
+import { toast } from "sonner";
 
 interface Platforms {
   platformName: Discover;
@@ -99,18 +102,19 @@ const formSchema = z.object({
   companyName: z.string({
     message: "You can your social media handle if you don't have a company",
   }),
-  discover: z.string({ message: "This is required" }),
+  // discover: z.string({ message: "This is required" }),
+  discover: z.nativeEnum(Discover),
   usage: z.string({ message: "This field is important" }),
 });
 
-export function OnboardingForm() {
+export function OnboardingForm(props: { id: string }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
       companyName: "",
-      discover: "",
+      discover: undefined,
       usage: "",
     },
   });
@@ -129,8 +133,39 @@ export function OnboardingForm() {
     }
   };
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    setIsLoading(true);
+    try {
+      console.log(values);
+      const createCompany = await CreateCompany(
+        props.id,
+        values.firstName,
+        values.lastName,
+        values.companyName,
+        values.discover,
+        values.usage
+      );
+
+      toast("You account has been created", {
+        description: "You can now access your dashboard",
+        action: {
+          label: "ok",
+          onClick: () => console.log("ok"),
+        },
+      });
+      setIsLoading(false);
+    } catch (error) {
+      toast("An unexpected error occured", {
+        description:
+          "Check your internet and try again, if the issue pessists, contact our support team",
+        action: {
+          label: "ok",
+          onClick: () => console.log("ok"),
+        },
+      });
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -196,7 +231,9 @@ export function OnboardingForm() {
             )}
             {page === 2 && (
               <RadioGroup
-                onValueChange={(value) => form.setValue("discover", value)}
+                onValueChange={(value) =>
+                  form.setValue("discover", value as Discover)
+                }
               >
                 {platforms.map((items) => (
                   <div className="flex items-center space-x-5" key={items.id}>
@@ -249,7 +286,7 @@ export function OnboardingForm() {
                     className="bg-blue-600 text-white hover:bg-blue-700 "
                     disabled={isNextDisabled()}
                   >
-                    Submit
+                    Submit {isLoading && <Loader2 className="animate-spin" />}
                   </Button>
                 ) : (
                   <Button

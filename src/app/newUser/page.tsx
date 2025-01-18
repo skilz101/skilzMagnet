@@ -9,10 +9,13 @@ export async function metadata(): Promise<Metadata> {
   };
 }
 
+// mock id
+const id = "23643853487";
+
 export default async function NewUser() {
   return (
     <main className="w-full">
-      <Slider />
+      <Slider id={id} />
     </main>
   );
 }

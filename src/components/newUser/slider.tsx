@@ -3,7 +3,7 @@
 import { Logo2 } from "../assets/logo";
 import { OnboardingForm } from "./customCarousel";
 
-export default function Slider() {
+export default function Slider(props: { id: string }) {
   return (
     <main className="grid md:grid-cols-2 gap-10 h-screen auto-rows-fr w-full">
       <div className="bg-blue-600 p-10 text-white hidden md:flex flex-col ">
@@ -20,7 +20,7 @@ export default function Slider() {
         </div>
       </div>
       <div className="flex items-center justify-center p-2 md:p-10">
-        <OnboardingForm />
+        <OnboardingForm id={props.id} />
       </div>
     </main>
   );
