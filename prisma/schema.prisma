@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  name      String
-  sessions  Session[]
-  role      Roles     @default(NEWUSER)
-  company   Company?  @relation(fields: [companyId], references: [id])
-  companyId String?
-  picture  String
+  id             String    @id @default(uuid())
+  email          String    @unique
+  name           String
+  sessions       Session[]
+  role           Roles     @default(NEWUSER)
+  company        Company?  @relation(fields: [companyId], references: [id])
+  companyId      String?
+  picture        String
+  hashedPassword String?
 }
 
 model Session {

@@ -15,9 +15,9 @@ export default function GoogleOAuthButton() {
           toast.error(res.error);
         }
       }}
-      className="bg-white text-black hover:text-white"
+      className="bg-[#4A86D4] hover:bg-[#2f6cbb] text-white"
     >
-      Continue with Google!
+      Sign in
     </Button>
   );
 }
