@@ -43,6 +43,12 @@ export default function FormFields({
 
   return (
     <div className="flex flex-col space-y-3">
+      <div className="flex flex-col space-y-1">
+        <h3 className="text-xl">Form Fields</h3>
+        <p className="text-muted-foreground">
+          select the data you want to retrieve from your followers
+        </p>
+      </div>
       {/* Name Checkbox */}
       <div className="flex space-x-3">
         <Checkbox

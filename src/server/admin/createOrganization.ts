@@ -10,6 +10,10 @@ export async function createOrganization(
   logo: string,
   title: string,
   subTitle: string,
+
+  email: boolean,
+  phoneNumber: boolean,
+  name: boolean,
 ) {
   try {
     const user = await prisma.user.findUnique({
@@ -18,17 +22,62 @@ export async function createOrganization(
       },
     });
 
-    const createPage = await prisma.company.update({
+    const fields = await prisma.fields.findUnique({
       where: {
         companyId: id,
       },
-      data: {
-        template,
-        theme,
-        logo,
-        title,
-        subTitle,
-      },
     });
-  } catch (error) {}
+
+    if (user && !fields) {
+      const createPage = await prisma.company.update({
+        where: {
+          companyId: id,
+        },
+        data: {
+          template,
+          theme,
+          logo,
+          title,
+          subTitle,
+          fields: {
+            create: {
+              name,
+              email,
+              phoneNumber,
+            },
+          },
+        },
+      });
+    } else {
+      const createPage = await prisma.company.update({
+        where: {
+          companyId: id,
+        },
+        data: {
+          template,
+          theme,
+          logo,
+          title,
+          subTitle,
+          fields: {
+            update: {
+              where: {
+                companyId: id,
+              },
+              data: {
+                name,
+                email,
+                phoneNumber,
+              },
+            },
+          },
+        },
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    throw new Error(`${error}`);
+  } finally {
+    prisma.$disconnect();
+  }
 }

@@ -71,7 +71,7 @@ model Fields {
   phoneNumber Boolean
 
   Company   Company? @relation(fields: [companyId], references: [id])
-  companyId String?
+  companyId String?  @unique
 }
 
 enum Discover {
