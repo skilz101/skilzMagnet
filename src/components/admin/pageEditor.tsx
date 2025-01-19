@@ -13,6 +13,7 @@ import FormFields from "./fields";
 import { toast } from "sonner";
 import { createOrganization } from "@/server/admin/createOrganization";
 import { Button } from "../ui/button";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   template: z.nativeEnum(Template),
@@ -25,29 +26,53 @@ const formSchema = z.object({
   phoneNumber: z.boolean(),
 });
 
-export default function PageEditor(props: { id: string }) {
+export default function PageEditor(props: {
+  id: string;
+  template: Template | null;
+  theme: Theme | null;
+  logo: string | null;
+  subTitle: string | null;
+  title: string | null;
+  name: boolean | null;
+  email: boolean | null;
+  phoneNumber: boolean | null;
+}) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      template: undefined,
-      theme: undefined,
-      logo: "",
-      title: "",
-      subTitle: "",
-      name: false,
-      email: false,
-      phoneNumber: false,
+      template: props.template || undefined,
+      theme: props.theme || undefined,
+      logo: props.logo || "",
+      title: props.title || "",
+      subTitle: props.subTitle || "",
+      name: props.name || false,
+      email: props.email || false,
+      phoneNumber: props.phoneNumber || false,
     },
   });
-  const [template, setTemplate] = useState<Template>();
-  const [theme, setTheme] = useState<Theme>();
-  const [logo, setLogo] = useState<string>("");
-  const [title, seTitle] = useState<string>("");
-  const [subTitle, setSubTitle] = useState<string>("");
+  const [template, setTemplate] = useState<Template | undefined>(
+    props.template || undefined
+  );
+  const [theme, setTheme] = useState<Theme | undefined>(
+    props.theme || undefined
+  );
+  const [logo, setLogo] = useState<string | undefined>(props.logo || undefined);
+  const [title, seTitle] = useState<string | undefined>(
+    props.title || undefined
+  );
+  const [subTitle, setSubTitle] = useState<string | undefined>(
+    props.subTitle || undefined
+  );
 
-  const [name, setName] = useState<boolean>();
-  const [email, setEmail] = useState<boolean>();
-  const [phoneNumber, setPhoneNumber] = useState<boolean>();
+  const [name, setName] = useState<boolean | undefined>(
+    props.name || undefined
+  );
+  const [email, setEmail] = useState<boolean | undefined>(
+    props.email || undefined
+  );
+  const [phoneNumber, setPhoneNumber] = useState<boolean | undefined>(
+    props.phoneNumber || undefined
+  );
 
   //callbacks
 
@@ -100,6 +125,10 @@ export default function PageEditor(props: { id: string }) {
       console.log(`Updated title: ${title}`);
       form.setValue("title", title);
     }
+    if (subTitle) {
+      console.log(`Updated subTitle: ${subTitle}`);
+      form.setValue("subTitle", subTitle);
+    }
     if (name) {
       console.log(`Updated name: ${name}`);
       form.setValue("name", name as boolean);
@@ -126,10 +155,10 @@ export default function PageEditor(props: { id: string }) {
 
       form.setValue("template", template as Template);
       form.setValue("theme", theme as Theme);
-      form.setValue("logo", logo);
-      form.setValue("title", title);
+      form.setValue("logo", logo as string);
+      form.setValue("title", title as string);
 
-      form.setValue("subTitle", subTitle);
+      form.setValue("subTitle", subTitle as string);
 
       const submit = await createOrganization(
         props.id,
@@ -140,7 +169,7 @@ export default function PageEditor(props: { id: string }) {
         values.subTitle,
         values.email,
         values.phoneNumber,
-        values.name,
+        values.name
       );
       setLoading(false);
 
@@ -152,6 +181,7 @@ export default function PageEditor(props: { id: string }) {
           onClick: () => console.log("ok"),
         },
       });
+      form.reset();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -163,16 +193,16 @@ export default function PageEditor(props: { id: string }) {
           onClick: () => console.log("ok"),
         },
       });
+      form.reset();
     }
   };
 
   const isDisabled = () => {
     const value = form.watch();
+    const hasAtLeastOneField = value.name || value.email || value.phoneNumber;
 
     return (
-      !value.name ||
-      !value.email ||
-      !value.phoneNumber ||
+      !hasAtLeastOneField ||
       !value.template ||
       !value.theme ||
       !value.logo ||
@@ -222,8 +252,9 @@ export default function PageEditor(props: { id: string }) {
             type="submit"
             onClick={() => onSubmit()}
             disabled={isDisabled()}
+            className="bg-blue-600 hover:bg-blue-500"
           >
-            Create page
+            Create page {loading && <Loader2 className="animate-spin" />}
           </Button>
         </div>
       </div>

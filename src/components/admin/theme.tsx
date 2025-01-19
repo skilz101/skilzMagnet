@@ -16,6 +16,7 @@ import { Theme } from "@prisma/client";
 
 import { UploadButton } from "@/utils/uploadthing";
 import Image from "next/image";
+import { toast } from "sonner";
 
 interface ThemeInterface {
   theme: Theme | undefined;
@@ -81,7 +82,7 @@ export default function ThemeSelector({
 }
 
 interface LogoUploadInterface {
-  logo: string;
+  logo: string | undefined;
   onLogoChange: (selectedLogo: string) => void;
 }
 export function LogoUpload({ logo, onLogoChange }: LogoUploadInterface) {
@@ -106,11 +107,24 @@ export function LogoUpload({ logo, onLogoChange }: LogoUploadInterface) {
             // Do something with the response
             console.log("Files: ", res);
             handleLogoChange(res[0].url as string);
-            alert("Upload Completed");
+            toast("image Uploaded", {
+              description: "Your image has been uploaded",
+              action: {
+                label: "ok",
+                onClick: () => console.log("ok"),
+              },
+            });
           }}
           onUploadError={(error: Error) => {
             // Do something with the error.
-            alert(`ERROR! ${error.message}`);
+            toast("An error occured", {
+              description:
+                "This might be due to some internet issues. refresh and try again. If the issue pessists, contact our support team",
+              action: {
+                label: "ok",
+                onClick: () => console.log("ok"),
+              },
+            });
           }}
           appearance={{
             container: {

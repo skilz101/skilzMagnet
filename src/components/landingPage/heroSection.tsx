@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { GetStarted } from "../auth/google";
 
 export default function HeroSection() {
   return (
@@ -27,9 +28,7 @@ export default function HeroSection() {
           today
         </p>
 
-        <Button className="bg-[#4A86D4] hover:bg-[#2f6cbb] text-white w-fit h-fit px-20 py-5">
-          Get Started
-        </Button>
+        <GetStarted />
       </div>
       <div className="bg-blue-300/10 relative row-start-1 col-start-1 md:col-start-2">
         <Image

@@ -6,8 +6,8 @@ import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 
 interface TextInterface {
-  title: string;
-  subTitle: string;
+  title: string | undefined;
+  subTitle: string | undefined;
   handleTitleChange: (newTitle: string) => void;
   handleSubTitlechange: (newSubTitle: string) => void;
 }
@@ -17,8 +17,12 @@ export default function TextContent({
   handleTitleChange,
   handleSubTitlechange,
 }: TextInterface) {
-  const [modifiedtitle, setTitle] = useState<string>(title);
-  const [modifiedsubtitle, setSubTitle] = useState<string>(subTitle);
+  const [modifiedtitle, setTitle] = useState<string | undefined>(
+    title || undefined
+  );
+  const [modifiedsubtitle, setSubTitle] = useState<string | undefined>(
+    subTitle || undefined
+  );
 
   const onTitleChange = (selectedTitle: string) => {
     handleTitleChange(selectedTitle);
@@ -47,7 +51,7 @@ export default function TextContent({
             <div className="flex items-center space-x-2">
               <span
                 className={`${
-                  title?.length > 60 ? "text-red-600" : "text-muted-foreground"
+                  title?.length! > 60 ? "text-red-600" : "text-muted-foreground"
                 }`}
               >
                 {title?.length}
@@ -55,7 +59,7 @@ export default function TextContent({
               /60
             </div>
           </div>
-          {title?.length > 60 && (
+          {title?.length! > 60 && (
             <p className="text-red-600">
               You can only write a maximum of 60 characters for your title
             </p>
@@ -81,7 +85,7 @@ export default function TextContent({
             <div className="flex items-center space-x-2">
               <span
                 className={`${
-                  subTitle?.length > 160
+                  subTitle?.length! > 160
                     ? "text-red-600"
                     : "text-muted-foreground"
                 }`}
@@ -91,7 +95,7 @@ export default function TextContent({
               /160
             </div>
           </div>
-          {subTitle?.length > 60 && (
+          {subTitle?.length! > 60 && (
             <p className="text-red-600">
               You can only write a maximum of 160 characters for your sub title
             </p>

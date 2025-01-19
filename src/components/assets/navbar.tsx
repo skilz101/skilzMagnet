@@ -9,6 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import GoogleOAuthButton from "../auth/google";
 
 export default function NavBar() {
   return (
@@ -59,9 +60,7 @@ export default function NavBar() {
         </li>
       </ul>
 
-      <Button className="bg-[#4A86D4] hover:bg-[#2f6cbb] text-white">
-        Sign up
-      </Button>
+      <GoogleOAuthButton />
     </nav>
   );
 }
