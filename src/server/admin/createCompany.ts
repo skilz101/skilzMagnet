@@ -32,7 +32,7 @@ export async function CreateCompany(
         usage,
       },
     });
-    return company
+    return company;
   } catch (error) {
     throw new Error(`{error}`);
   } finally {

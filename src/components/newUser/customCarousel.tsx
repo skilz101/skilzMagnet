@@ -144,7 +144,7 @@ export function OnboardingForm(props: { id: string }) {
         values.lastName,
         values.companyName,
         values.discover,
-        values.usage
+        values.usage,
       );
 
       toast("You account has been created", {

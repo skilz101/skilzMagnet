@@ -8,6 +8,7 @@ import TemplateSelector from "./templateSelector";
 import ThemeSelector, { LogoUpload } from "./theme";
 import TextContent from "./textContent";
 import { zodResolver } from "@hookform/resolvers/zod";
+import FormFields from "./fields";
 
 const formSchema = z.object({
   template: z.nativeEnum(Template),
@@ -40,6 +41,10 @@ export default function PageEditor() {
   const [title, seTitle] = useState<string>("");
   const [subTitle, setSubTitle] = useState<string>("");
 
+  const [name, setName] = useState<boolean>();
+  const [email, setEmail] = useState<boolean>();
+  const [phoneNumber, setPhoneNumber] = useState<boolean>();
+
   //callbacks
 
   const handleChangeTemplate = (selectedTemplate: Template) => {
@@ -62,6 +67,17 @@ export default function PageEditor() {
     setSubTitle(newSubTitle);
   };
 
+  const onNameChange = (value: boolean) => {
+    setName(value);
+  };
+  const onEmailChange = (value: boolean) => {
+    setEmail(value);
+  };
+
+  const onPhoneNumberChange = (value: boolean) => {
+    setPhoneNumber(value);
+  };
+
   // Log the updated template
   useEffect(() => {
     if (template) {
@@ -76,10 +92,22 @@ export default function PageEditor() {
     if (title) {
       console.log(`Updated title: ${title}`);
     }
-    if (subTitle) {
-      console.log(`Updated subTitle: ${subTitle}`);
+    if (name) {
+      console.log(`Updated name: ${name}`);
     }
-  }, [template, theme, logo, title, subTitle]);
+    if (email) {
+      console.log(`Updated email: ${email}`);
+    }
+    if (phoneNumber) {
+      console.log(`Updated phoneNumber: ${phoneNumber}`);
+    }
+  }, [template, theme, logo, title, subTitle, name, email, phoneNumber]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const onSubmit = async () => {
+    setLoading(true);
+    try {
+    } catch (error) {}
+  };
   return (
     <main className="flex flex-col space-y-8">
       <div className="flex flex-col space-y-5">
@@ -106,6 +134,15 @@ export default function PageEditor() {
             subTitle={subTitle}
             handleTitleChange={handleTitleChange}
             handleSubTitlechange={handleSubTitlechange}
+          />
+
+          <FormFields
+            name={name}
+            email={email}
+            phoneNumber={phoneNumber}
+            onNameChange={onNameChange}
+            onEmailChange={onEmailChange}
+            onPhoneNumberChange={onPhoneNumberChange}
           />
         </div>
       </div>
