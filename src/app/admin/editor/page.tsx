@@ -1,5 +1,6 @@
 "use server";
 
+import PageEditor from "@/components/admin/pageEditor";
 import AppSidebar from "@/components/assets/app-sidebar";
 import SideBarBody from "@/components/assets/sideBarBody";
 import { Roles } from "@prisma/client";
@@ -36,7 +37,9 @@ export default async function Page() {
           email={user.email}
         >
           <SideBarBody>
-            <div className="w-full h-full gap-3 grid place-content-center place-items-center"></div>
+            <div className="w-full h-full overflow-hidden px-5">
+              <PageEditor />
+            </div>
           </SideBarBody>
         </AppSidebar>
       </main>
