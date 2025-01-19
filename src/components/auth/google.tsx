@@ -35,7 +35,7 @@ export function GetStarted() {
       }}
       className="bg-[#4A86D4] hover:bg-[#2f6cbb] text-white w-fit h-fit px-20 py-5"
     >
-      Sign in
+      Get started
     </Button>
   );
 }

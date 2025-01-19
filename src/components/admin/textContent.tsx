@@ -18,10 +18,10 @@ export default function TextContent({
   handleSubTitlechange,
 }: TextInterface) {
   const [modifiedtitle, setTitle] = useState<string | undefined>(
-    title || undefined
+    title || undefined,
   );
   const [modifiedsubtitle, setSubTitle] = useState<string | undefined>(
-    subTitle || undefined
+    subTitle || undefined,
   );
 
   const onTitleChange = (selectedTitle: string) => {

@@ -58,10 +58,10 @@ model Leads {
   id          String  @id @default(uuid())
   name        String?
   email       String?
-  phoneNumber String?
+  phoneNumber Int?
 
   Company   Company? @relation(fields: [companyId], references: [id])
-  companyId String?
+  companyId String?  @unique
 }
 
 model Fields {

@@ -4,16 +4,11 @@ import Welcome from "@/components/admin/welcome";
 import AppSidebar from "@/components/assets/app-sidebar";
 import { Logo, NewSvgComponent } from "@/components/assets/logo";
 import SideBarBody from "@/components/assets/sideBarBody";
+import { getUser } from "@/lib/lucia";
+import { getCompanyDetails } from "@/server/admin/getCompanyDetails";
 import { Roles } from "@prisma/client";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-
-interface UserProps {
-  picture: string;
-  firstName: string;
-  email: string;
-  role: Roles;
-}
 
 export async function metadata(): Promise<Metadata> {
   return {
@@ -21,20 +16,22 @@ export async function metadata(): Promise<Metadata> {
   };
 }
 
-const user: UserProps = {
-  picture: "",
-  firstName: "Iji",
-  email: "test@gmail.com",
-  role: "ADMIN",
-};
-
 export default async function Page() {
+  const user = await getUser();
+
+  if (!user) {
+    throw new Error("no user");
+  }
+  const company = await getCompanyDetails(user.id);
+  if (!company) {
+    throw new Error("no registered company");
+  }
   if (user.role === Roles.ADMIN) {
     return (
       <main className="min-h-screen w-full">
         <AppSidebar
           image={user.picture || "/avatars/shadcn.jpg"}
-          name={user.firstName}
+          name={company.firstName}
           email={user.email}
         >
           <SideBarBody>
@@ -43,7 +40,7 @@ export default async function Page() {
                 <NewSvgComponent />{" "}
               </div>
 
-              <Welcome firstName={user.firstName} />
+              <Welcome firstName={company.firstName} />
             </div>
           </SideBarBody>
         </AppSidebar>

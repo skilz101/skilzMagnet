@@ -51,27 +51,27 @@ export default function PageEditor(props: {
     },
   });
   const [template, setTemplate] = useState<Template | undefined>(
-    props.template || undefined
+    props.template || undefined,
   );
   const [theme, setTheme] = useState<Theme | undefined>(
-    props.theme || undefined
+    props.theme || undefined,
   );
   const [logo, setLogo] = useState<string | undefined>(props.logo || undefined);
   const [title, seTitle] = useState<string | undefined>(
-    props.title || undefined
+    props.title || undefined,
   );
   const [subTitle, setSubTitle] = useState<string | undefined>(
-    props.subTitle || undefined
+    props.subTitle || undefined,
   );
 
   const [name, setName] = useState<boolean | undefined>(
-    props.name || undefined
+    props.name || undefined,
   );
   const [email, setEmail] = useState<boolean | undefined>(
-    props.email || undefined
+    props.email || undefined,
   );
   const [phoneNumber, setPhoneNumber] = useState<boolean | undefined>(
-    props.phoneNumber || undefined
+    props.phoneNumber || undefined,
   );
 
   //callbacks
@@ -169,7 +169,7 @@ export default function PageEditor(props: {
         values.subTitle,
         values.email,
         values.phoneNumber,
-        values.name
+        values.name,
       );
       setLoading(false);
 

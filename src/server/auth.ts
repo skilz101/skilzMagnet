@@ -20,6 +20,7 @@ const signUpSchema = z
     email: z.string().email(),
     password: z.string().min(8),
     confirmPassword: z.string().min(8),
+    picture: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -45,11 +46,12 @@ export const signUp = async (values: z.infer<typeof signUpSchema>) => {
         email: values.email.toLowerCase(),
         name: values.name,
         hashedPassword,
+        picture: values.picture,
       },
     });
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = await lucia.createSessionCookie(session.id);
-    cookies().set(
+    (await cookies()).set(
       sessionCookie.name,
       sessionCookie.value,
       sessionCookie.attributes,
@@ -79,7 +81,7 @@ export const signIn = async (values: z.infer<typeof signInSchema>) => {
   // successfully login
   const session = await lucia.createSession(user.id, {});
   const sessionCookie = await lucia.createSessionCookie(session.id);
-  cookies().set(
+  (await cookies()).set(
     sessionCookie.name,
     sessionCookie.value,
     sessionCookie.attributes,
@@ -89,7 +91,7 @@ export const signIn = async (values: z.infer<typeof signInSchema>) => {
 
 export const logOut = async (localeActive: string) => {
   const sessionCookie = await lucia.createBlankSessionCookie();
-  cookies().set(
+  (await cookies()).set(
     sessionCookie.name,
     sessionCookie.value,
     sessionCookie.attributes,
@@ -102,16 +104,16 @@ export const getGoogleOauthConsentUrl = async () => {
     const state = generateState();
     const codeVerifier = generateCodeVerifier();
 
-    cookies().set("codeVerifier", codeVerifier, {
+    (await cookies()).set("codeVerifier", codeVerifier, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
     });
-    cookies().set("state", state, {
+    (await cookies()).set("state", state, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
     });
 
-    const authUrl = await googleOAuthClient.createAuthorizationURL(
+    const authUrl = googleOAuthClient.createAuthorizationURL(
       state,
       codeVerifier,
       {
