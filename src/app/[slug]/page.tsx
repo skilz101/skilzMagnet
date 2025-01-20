@@ -27,7 +27,7 @@ export default async function Page() {
     subTitle:
       "Join our list so you can get latest info about upcoming discounts and giveaways",
     theme: "Dark",
-    template: "Template2",
+    template: "Template3",
     companyName: "skilz web services",
     id: "4785ubjwoy83y86y89hf89",
   };

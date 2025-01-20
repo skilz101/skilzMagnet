@@ -20,7 +20,6 @@ const signUpSchema = z
     email: z.string().email(),
     password: z.string().min(8),
     confirmPassword: z.string().min(8),
-    picture: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -46,7 +45,6 @@ export const signUp = async (values: z.infer<typeof signUpSchema>) => {
         email: values.email.toLowerCase(),
         name: values.name,
         hashedPassword,
-        picture: values.picture,
       },
     });
     const session = await lucia.createSession(user.id, {});
@@ -113,12 +111,10 @@ export const getGoogleOauthConsentUrl = async () => {
       secure: process.env.NODE_ENV === "production",
     });
 
-    const authUrl = googleOAuthClient.createAuthorizationURL(
+    const authUrl = await googleOAuthClient.createAuthorizationURL(
       state,
       codeVerifier,
-      {
-        scopes: ["email", "profile"],
-      },
+       ["email", "profile"],
     );
     return { success: true, url: authUrl.toString() };
   } catch (error) {
