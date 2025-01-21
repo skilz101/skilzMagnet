@@ -31,7 +31,11 @@ export default function FormTemplate({
 }: formBoolean) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues: {
+      name: "",
+      email: "",
+      phoneNumber: undefined,
+    },
   });
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -43,7 +47,7 @@ export default function FormTemplate({
         id,
         values.name,
         values.email,
-        values.phoneNumber,
+        values.phoneNumber
       );
     } catch (error) {
       console.log(error);

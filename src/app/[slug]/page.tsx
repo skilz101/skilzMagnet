@@ -2,6 +2,8 @@
 
 import Template1 from "@/components/customerPages/template1/template1";
 import Template2 from "@/components/customerPages/template2/template2";
+import Template3 from "@/components/customerPages/template3/template3";
+import Template4 from "@/components/customerPages/template4/template4";
 import { Template, Theme } from "@prisma/client";
 
 interface pageData {
@@ -26,7 +28,7 @@ export default async function Page() {
     title: "Join our newsletter campaign",
     subTitle:
       "Join our list so you can get latest info about upcoming discounts and giveaways",
-    theme: "Dark",
+    theme: "Light",
     template: "Template3",
     companyName: "skilz web services",
     id: "4785ubjwoy83y86y89hf89",
@@ -49,6 +51,45 @@ export default async function Page() {
   } else if (user.template === "Template2") {
     return (
       <Template2
+        name={user.name}
+        email={user.email}
+        phoneNumber={user.phoneNumber}
+        subTitle={user.subTitle}
+        title={user.title}
+        theme={user.theme}
+        logo={user.logo}
+        companyName={user.companyName}
+        id={user.id}
+      />
+    );
+  } else if (user.template === "Template3") {
+    return (
+      // <Template3
+      //   name={user.name}
+      //   email={user.email}
+      //   phoneNumber={user.phoneNumber}
+      //   subTitle={user.subTitle}
+      //   title={user.title}
+      //   theme={user.theme}
+      //   logo={user.logo}
+      //   companyName={user.companyName}
+      //   id={user.id}
+      // />
+      <Template4
+        name={user.name}
+        email={user.email}
+        phoneNumber={user.phoneNumber}
+        subTitle={user.subTitle}
+        title={user.title}
+        theme={user.theme}
+        logo={user.logo}
+        companyName={user.companyName}
+        id={user.id}
+      />
+    );
+  } else if (user.template === "Template4") {
+    return (
+      <Template4
         name={user.name}
         email={user.email}
         phoneNumber={user.phoneNumber}
