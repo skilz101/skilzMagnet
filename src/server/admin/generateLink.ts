@@ -24,7 +24,7 @@ export async function generateLink(id: string): Promise<string> {
           id,
         },
         data: {
-          slug: slugName + slugId,
+          slug: slugName + "-" + slugId,
         },
       });
       return user.slug as string;

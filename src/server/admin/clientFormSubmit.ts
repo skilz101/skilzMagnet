@@ -6,7 +6,7 @@ export default async function formSubmit(
   id: string,
   name: string | undefined,
   email: string | undefined,
-  phoneNumber: number | undefined,
+  phoneNumber: string | undefined,
 ) {
   try {
     const user = await prisma.user.findUnique({
@@ -18,25 +18,21 @@ export default async function formSubmit(
     if (!user) {
       throw new Error("not a registered user");
     }
-    const company = await prisma.company.findUnique({
+    const company = await prisma.company.update({
       where: {
         companyId: user.id,
       },
-    });
-
-    if (!company) {
-      throw new Error("not a registered company");
-    }
-    const createLeads = await prisma.leads.create({
       data: {
-        companyId: company.companyId,
-        name,
-        email,
-        phoneNumber,
+        leads: {
+          create: {
+            // companyId: id,
+            name,
+            email,
+            phoneNumber,
+          },
+        },
       },
     });
-
-    return createLeads;
   } catch (error) {
     throw new Error(`${error}`);
   } finally {

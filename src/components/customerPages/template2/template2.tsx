@@ -47,8 +47,7 @@ export default function Template2({
         <div className="flex space-y-3 flex-col">
           <div className="flex space-x-3 items-center">
             <Image
-              // src={logo || ""}
-              src={"/Group-7.png"}
+              src={logo || "/Group-7.png"}
               alt="skilz magnet. a saas for lead generation"
               width={50}
               height={50}

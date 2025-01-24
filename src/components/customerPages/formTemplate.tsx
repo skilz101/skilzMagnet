@@ -13,7 +13,7 @@ import formSubmit from "@/server/admin/clientFormSubmit";
 const formSchema = z.object({
   name: z.string().optional(),
   email: z.string().email().optional(),
-  phoneNumber: z.number().optional(),
+  phoneNumber: z.string().optional(),
 });
 
 export interface formBoolean {
@@ -34,7 +34,7 @@ export default function FormTemplate({
     defaultValues: {
       name: "",
       email: "",
-      phoneNumber: undefined,
+      phoneNumber: "",
     },
   });
 
@@ -49,9 +49,12 @@ export default function FormTemplate({
         values.email,
         values.phoneNumber,
       );
+      form.reset();
+      setLoading(false);
     } catch (error) {
       console.log(error);
       setLoading(false);
+      form.reset();
     }
   };
   return (

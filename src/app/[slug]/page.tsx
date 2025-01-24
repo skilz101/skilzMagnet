@@ -7,7 +7,9 @@ import Template3 from "@/components/customerPages/template3/template3";
 import Template4 from "@/components/customerPages/template4/template4";
 import { getDetailsBySlug } from "@/server/admin/getDetailsBySlug";
 import { Template, Theme } from "@prisma/client";
+import { Metadata } from "next";
 import Image from "next/image";
+import { string } from "zod";
 
 export interface slugPageData {
   name: boolean;
@@ -22,8 +24,28 @@ export interface slugPageData {
   id: string;
 }
 
-export default async function Page(params: { slug: string }) {
-  const { slug } = params;
+interface Props {
+  params: {
+    slug: string;
+  };
+}
+
+// export async function metadata({ params }: Props): Promise<Metadata> {
+//   const { slug } = await params;
+//   const user = await getDetailsBySlug(slug);
+//   return {
+//     title: `${user?.companyName} | SkilzMagnet`,
+//   };
+// }
+export async function metadata(): Promise<Metadata> {
+  return {
+    title: `Skilz web | SkilzMagnet`,
+  };
+}
+
+export default async function Page({ params }: Props) {
+  const { slug } = await params;
+  // console.log(slug);
 
   const user = await getDetailsBySlug(slug);
   if (!user) {

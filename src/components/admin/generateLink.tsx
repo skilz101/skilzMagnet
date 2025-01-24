@@ -1,8 +1,20 @@
 "use client";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-import { Template } from "@prisma/client";
 import { Button } from "../ui/button";
-import { Loader2, ZapIcon } from "lucide-react";
+
+import { Copy, Loader2, ZapIcon } from "lucide-react";
 import { useState } from "react";
 import { generateLink } from "@/server/admin/generateLink";
 
@@ -13,16 +25,26 @@ interface LinkInterface {
 
 export function GenerateLink({ hasTemplate, id }: LinkInterface) {
   const [loading, isLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
-  let link;
+  const [link, setLink] = useState<string>("");
   const onSubmit = async () => {
     isLoading(true);
     try {
-      link = await generateLink(id);
+      const Link = await generateLink(id);
+      setLink(Link);
+      console.log(link);
+      setOpen(true);
+      isLoading(false);
     } catch (error) {
       console.error(error);
       isLoading(false);
     }
+  };
+  const handleCopy = () => {
+    navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_URL + "/" + link}`,
+    );
   };
   return (
     <div className="flex space-y-5 flex-col">
@@ -52,6 +74,30 @@ export function GenerateLink({ hasTemplate, id }: LinkInterface) {
         Activate
         {loading && <Loader2 className="animate-spin" />}
       </Button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Copy your page link</DialogTitle>
+            <DialogDescription>
+              You can embed this link on your post captions or you can send it
+              as a dm to your followers. when they fill out the form, you will
+              recieve their details in the /leads page
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center space-x-2">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="link" className="sr-only">
+                Copy your url
+              </Label>
+              <Input id="link" value={link} readOnly />
+            </div>
+            <Button onClick={handleCopy} size="sm" className="px-3">
+              <span className="sr-only">Copy</span>
+              <Copy className="h-4 w-4" />
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
