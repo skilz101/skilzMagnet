@@ -46,6 +46,7 @@ export async function createOrganization(
               phoneNumber,
             },
           },
+          // hasTemplate: true
         },
       });
     } else {
