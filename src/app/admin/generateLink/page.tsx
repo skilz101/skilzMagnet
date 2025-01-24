@@ -18,34 +18,25 @@ export async function metadata(): Promise<Metadata> {
 }
 
 export default async function Page() {
-  //   const user = await getUser();
-
-  const user = {
-    role: Roles.ADMIN,
-    id: "47365737934ubfuify3",
-    picture: "/globe.svg",
-    email: "skilz@gmail.com",
-    firstName: "Iji",
-  };
+  const user = await getUser();
 
   if (!user) {
     throw new Error("no user");
   }
-  //   const company = await getCompanyDetails(user.id);
-  //   if (!company) {
-  //     throw new Error("no registered company");
-  //   }
+  const company = await getCompanyDetails(user.id);
+  if (!company) {
+    throw new Error("no registered company");
+  }
   if (user.role === Roles.ADMIN) {
     return (
       <main className="min-h-screen w-full">
         <AppSidebar
           image={user.picture || "/avatars/shadcn.jpg"}
-          //   name={company.firstName}
-          name={user.firstName}
+          name={company.firstName}
           email={user.email}
         >
           <SideBarBody>
-            <GenerateLink id={user.id} hasTemplate={true} />
+            <GenerateLink id={user.id} hasTemplate={company.hasTemplate} />
           </SideBarBody>
         </AppSidebar>
       </main>

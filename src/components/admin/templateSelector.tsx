@@ -79,16 +79,16 @@ export default function TemplateSelector({
           >
             <div className="p-1">
               <Card
-                className={`${
-                  active === item.templateName && "border-2 border-blue-600"
+                className={`border-0 text-white shadow-none hover:border-2 hover:border-black ${
+                  active === item.templateName && "border-2 border-black"
                 }`}
                 style={{
-                  background: item.templateImage,
-                  backgroundSize: "cover",
+                  background: `url(${item.templateImage})`,
+                  backgroundSize: "contain",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
-                  // backgroundColor: "blue",
-                  // backgroundBlendMode: "multiply",
+                  backgroundColor: "#4A86D4",
+                  backgroundBlendMode: "multiply",
                 }}
               >
                 <CardContent className="flex aspect-square items-center justify-center p-6">

@@ -44,6 +44,7 @@ export default function TextContent({
             <Input
               id="title"
               placeholder="this will be the h1 tag of your landing page"
+              defaultValue={title}
               onChangeCapture={(e) =>
                 onTitleChange((e.target as HTMLInputElement).value)
               }
@@ -77,6 +78,7 @@ export default function TextContent({
             <Textarea
               id="sub-title"
               placeholder="this will be the h1 tag of your landing page"
+              defaultValue={subTitle}
               onChangeCapture={(e) =>
                 onSubTitleChange((e.target as HTMLInputElement).value)
               }
@@ -95,7 +97,7 @@ export default function TextContent({
               /160
             </div>
           </div>
-          {subTitle?.length! > 60 && (
+          {subTitle?.length! > 160 && (
             <p className="text-red-600">
               You can only write a maximum of 160 characters for your sub title
             </p>

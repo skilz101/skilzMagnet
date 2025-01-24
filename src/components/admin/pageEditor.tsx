@@ -144,7 +144,16 @@ export default function PageEditor(props: {
   }, [template, theme, logo, title, subTitle, name, email, phoneNumber]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const onSubmit = async () => {
+  const onSubmit = async (
+    name: boolean | undefined,
+    email: boolean | undefined,
+    phoneNumber: boolean | undefined,
+    template: Template | undefined,
+    theme: Theme | undefined,
+    logo: string | undefined,
+    title: string | undefined,
+    subTitle: string | undefined,
+  ) => {
     const values = form.watch();
     setLoading(true);
     try {
@@ -159,6 +168,8 @@ export default function PageEditor(props: {
       form.setValue("title", title as string);
 
       form.setValue("subTitle", subTitle as string);
+
+      console.log(values);
 
       const submit = await createOrganization(
         props.id,
@@ -250,7 +261,18 @@ export default function PageEditor(props: {
 
           <Button
             type="submit"
-            onClick={() => onSubmit()}
+            onClick={() =>
+              onSubmit(
+                name,
+                email,
+                phoneNumber,
+                template,
+                theme,
+                logo,
+                title,
+                subTitle,
+              )
+            }
             disabled={isDisabled()}
             className="bg-blue-600 hover:bg-blue-500"
           >
