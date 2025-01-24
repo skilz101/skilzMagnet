@@ -119,7 +119,7 @@ export const getGoogleOauthConsentUrl = async () => {
         "https://www.googleapis.com/auth/userinfo.email",
         "https://www.googleapis.com/auth/userinfo.profile",
         "openid",
-      ]
+      ],
     );
     return { success: true, url: authUrl.toString() };
   } catch (error) {

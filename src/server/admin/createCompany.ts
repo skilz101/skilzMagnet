@@ -33,13 +33,13 @@ export async function CreateCompany(
       },
     });
     await prisma.user.update({
-      where:{
+      where: {
         id,
       },
-      data:{
-        role: Roles.ADMIN
-      }
-    })
+      data: {
+        role: Roles.ADMIN,
+      },
+    });
     return company;
   } catch (error) {
     throw new Error(`{error}`);

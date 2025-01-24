@@ -20,11 +20,16 @@ export async function GET(req: Request) {
     const codeVerifier = cookieStore.get("codeVerifier")?.value;
 
     if (state !== storedState || !codeVerifier) {
-      return new Response("Invalid or expired state/code verifier", { status: 400 });
+      return new Response("Invalid or expired state/code verifier", {
+        status: 400,
+      });
     }
 
     // Validate authorization code with the codeVerifier
-    const token = await googleOAuthClient.validateAuthorizationCode(code, codeVerifier);
+    const token = await googleOAuthClient.validateAuthorizationCode(
+      code,
+      codeVerifier,
+    );
     console.log("Access Token:", token.accessToken());
 
     // Fetch user info from Google UserInfo API
@@ -34,7 +39,7 @@ export async function GET(req: Request) {
         headers: {
           Authorization: `Bearer ${token.accessToken()}`, // Ensure you call the method to get the token string
         },
-      }
+      },
     );
     if (!userInfoResponse.ok) {
       throw new Error("Failed to fetch user info");
@@ -48,41 +53,41 @@ export async function GET(req: Request) {
     };
 
     let userId: string = "";
-  // if the email exists in our record, we can create a cookie for them and sign them in
-  // if the email doesn't exist, we create a new user, then craete cookie to sign them in
+    // if the email exists in our record, we can create a cookie for them and sign them in
+    // if the email doesn't exist, we create a new user, then craete cookie to sign them in
 
-  const existingUser = await prisma.user.findUnique({
-    where: {
-      email: userInfo.email,
-    },
-  });
-  if (existingUser) {
-    userId = existingUser.id;
-  } else {
-    const user = await prisma.user.create({
-      data: {
-        name: userInfo.name,
+    const existingUser = await prisma.user.findUnique({
+      where: {
         email: userInfo.email,
-        picture: userInfo.picture,
       },
     });
-    userId = user.id;
-  }
+    if (existingUser) {
+      userId = existingUser.id;
+    } else {
+      const user = await prisma.user.create({
+        data: {
+          name: userInfo.name,
+          email: userInfo.email,
+          picture: userInfo.picture,
+        },
+      });
+      userId = user.id;
+    }
 
-  const session = await lucia.createSession(userId, {});
-  const sessionCookie = await lucia.createSessionCookie(session.id);
-  (await cookies()).set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes,
-  );
+    const session = await lucia.createSession(userId, {});
+    const sessionCookie = await lucia.createSessionCookie(session.id);
+    (await cookies()).set(
+      sessionCookie.name,
+      sessionCookie.value,
+      sessionCookie.attributes,
+    );
 
-  return new Response(null, {
-    status: 307,
-    headers: {
-      Location: "/newUser",
-    },
-  });
+    return new Response(null, {
+      status: 307,
+      headers: {
+        Location: "/newUser",
+      },
+    });
   } catch (error) {
     console.error("OAuth error:", error);
     return new Response("OAuth error", { status: 500 });

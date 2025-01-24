@@ -47,7 +47,7 @@ export default function FormTemplate({
         id,
         values.name,
         values.email,
-        values.phoneNumber
+        values.phoneNumber,
       );
     } catch (error) {
       console.log(error);
