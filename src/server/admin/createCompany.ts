@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { Discover } from "@prisma/client";
+import { Discover, Roles } from "@prisma/client";
 
 export async function CreateCompany(
   id: string,
@@ -32,6 +32,14 @@ export async function CreateCompany(
         usage,
       },
     });
+    await prisma.user.update({
+      where:{
+        id,
+      },
+      data:{
+        role: Roles.ADMIN
+      }
+    })
     return company;
   } catch (error) {
     throw new Error(`{error}`);

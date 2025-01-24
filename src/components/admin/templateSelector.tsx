@@ -22,18 +22,23 @@ interface TemplateType {
 const templateItems: TemplateType[] = [
   {
     templateName: "Template1",
-    templateImage: "",
+    templateImage: "/Template-1.png",
     id: "1",
   },
   {
     templateName: "Template2",
-    templateImage: "",
+    templateImage: "/Template-2.png",
     id: "2",
   },
   {
     templateName: "Template3",
-    templateImage: "",
+    templateImage: "/Template-3.png",
     id: "3",
+  },
+  {
+    templateName: "Template4",
+    templateImage: "/Template-4.png",
+    id: "4",
   },
 ];
 
@@ -77,6 +82,14 @@ export default function TemplateSelector({
                 className={`${
                   active === item.templateName && "border-2 border-blue-600"
                 }`}
+                style={{
+                  background: item.templateImage,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  // backgroundColor: "blue",
+                  // backgroundBlendMode: "multiply",
+                }}
               >
                 <CardContent className="flex aspect-square items-center justify-center p-6">
                   <span className="text-xl">{item.templateName}</span>

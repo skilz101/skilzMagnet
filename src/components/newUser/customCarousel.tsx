@@ -33,6 +33,7 @@ import { Discover } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { CreateCompany } from "@/server/admin/createCompany";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface Platforms {
   platformName: Discover;
@@ -118,6 +119,7 @@ export function OnboardingForm(props: { id: string }) {
       usage: "",
     },
   });
+  const router = useRouter();
   const [page, setPage] = useState<number>(1);
 
   const isNextDisabled = () => {
@@ -144,7 +146,7 @@ export function OnboardingForm(props: { id: string }) {
         values.lastName,
         values.companyName,
         values.discover,
-        values.usage,
+        values.usage
       );
 
       toast("You account has been created", {
@@ -155,6 +157,7 @@ export function OnboardingForm(props: { id: string }) {
         },
       });
       setIsLoading(false);
+      router.replace("/admin");
     } catch (error) {
       toast("An unexpected error occured", {
         description:

@@ -87,14 +87,14 @@ export const signIn = async (values: z.infer<typeof signInSchema>) => {
   return { success: true };
 };
 
-export const logOut = async (localeActive: string) => {
+export const logOut = async () => {
   const sessionCookie = await lucia.createBlankSessionCookie();
   (await cookies()).set(
     sessionCookie.name,
     sessionCookie.value,
     sessionCookie.attributes,
   );
-  return redirect(`/${localeActive}/auth`);
+  return redirect(`/`);
 };
 
 export const getGoogleOauthConsentUrl = async () => {
@@ -114,7 +114,12 @@ export const getGoogleOauthConsentUrl = async () => {
     const authUrl = await googleOAuthClient.createAuthorizationURL(
       state,
       codeVerifier,
-       ["email", "profile"],
+      //  ["email", "profile"],
+      [
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "openid",
+      ]
     );
     return { success: true, url: authUrl.toString() };
   } catch (error) {

@@ -45,14 +45,14 @@ export default async function Page() {
             <div className="w-full h-full overflow-hidden px-5">
               <PageEditor
                 id={user.id}
-                template={company.template}
-                theme={company.theme}
-                logo={company.logo}
-                subTitle={company.subTitle}
-                title={company.title}
-                name={company.fields[0].name}
-                email={company.fields[0].email}
-                phoneNumber={company.fields[0].phoneNumber}
+                template={company.template || null}
+                theme={company.theme || null}
+                logo={company.logo || ""}
+                subTitle={company.subTitle || ""}
+                title={company.title || ""}
+                name={company.fields[0]?.name || false}
+                email={company.fields[0]?.email || false}
+                phoneNumber={company.fields[0]?.phoneNumber || false}
               />
             </div>
           </SideBarBody>

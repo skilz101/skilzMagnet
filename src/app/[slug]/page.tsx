@@ -23,22 +23,22 @@ export interface slugPageData {
 }
 
 export default async function Page(params: { slug: string }) {
-  const { slug } = params;
-  // const user: slugPageData = {
-  //   name: true,
-  //   email: true,
-  //   phoneNumber: false,
-  //   logo: "/logo2.png",
-  //   title: "Join our newsletter campaign",
-  //   subTitle:
-  //     "Join our list so you can get latest info about upcoming discounts and giveaways",
-  //   theme: "Light",
-  //   template: "Template4",
-  //   companyName: "skilz web services",
-  //   id: "4785ubjwoy83y86y89hf89",
-  // };
+  // const { slug } = params;
+  const user: slugPageData = {
+    name: true,
+    email: true,
+    phoneNumber: false,
+    logo: "/logo2.png",
+    title: "Join our newsletter campaign",
+    subTitle:
+      "Join our list so you can get latest info about upcoming discounts and giveaways",
+    theme: "Light",
+    template: "Template2",
+    companyName: "skilz web services",
+    id: "4785ubjwoy83y86y89hf89",
+  };
 
-  const user = await getDetailsBySlug(slug);
+  // const user = await getDetailsBySlug(slug);
   if (!user) {
     return (
       <div className="flex w-full min-h-screen items-center justify-center">
