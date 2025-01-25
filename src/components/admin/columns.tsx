@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { deleteLead } from "@/server/admin/deleteLead";
+import { useRouter } from "next/navigation";
 
 export type Leads = {
   id: string;
@@ -21,8 +22,11 @@ export type Leads = {
   phoneNumber: string | undefined;
 };
 
+const router = useRouter();
+
 async function delete_lead(id: string) {
   await deleteLead(id);
+  router.refresh();
 }
 
 export const columns: ColumnDef<Leads>[] = [
