@@ -63,7 +63,7 @@ model Leads {
   phoneNumber String?
 
   Company   Company? @relation(fields: [companyId], references: [id])
-  companyId String?  @unique
+  companyId String?
 }
 
 model Fields {
