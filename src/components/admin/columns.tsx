@@ -22,9 +22,9 @@ export type Leads = {
   phoneNumber: string | undefined;
 };
 
-const router = useRouter();
-
 async function delete_lead(id: string) {
+  const router = useRouter();
+
   await deleteLead(id);
   router.refresh();
 }
